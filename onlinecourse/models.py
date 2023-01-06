@@ -75,6 +75,9 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     content = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 # Enrollment model
 # <HINT> Once a user enrolled a class, an enrollment entry should be created between the user and course
@@ -95,16 +98,13 @@ class Enrollment(models.Model):
     rating = models.FloatField(default=5.0)
 
 
-# <HINT> Create a Question Model with:
-    # Used to persist question content for a course
-    # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
-    # Has a grade point for each question
-    # Has question content
-    # Other fields and methods you would like to design
-#class Question(models.Model):
-    # Foreign key to lesson
-    # question text
-    # question grade/mark
+#Question Model
+class Question(models.Model):
+    lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE)
+    question = models.CharField(null=False, max_length=300)
+    grade=models.IntegerField()
+
+
 
     # <HINT> A sample model method to calculate if learner get the score of the question
     #def is_get_score(self, selected_ids):
@@ -115,14 +115,16 @@ class Enrollment(models.Model):
     #    else:
     #        return False
 
+#Answer choices model
+class Choice(models.Model):
+    question = models.ForeignKey(Question,on_delete=models.CASCADE)
+    choice=models.CharField(max_length=250)
+    correct_answer=models.BooleanField()
 
-#  <HINT> Create a Choice Model with:
-    # Used to persist choice content for a question
-    # One-To-Many (or Many-To-Many if you want to reuse choices) relationship with Question
-    # Choice content
-    # Indicate if this choice of the question is a correct one or not
-    # Other fields and methods you would like to design
-# class Choice(models.Model):
+#Submission model
+class Submission(models.Model):
+    enrollment=models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    choices=models.ManyToManyField(Choice)
 
 # <HINT> The submission model
 # One enrollment could have multiple submission
