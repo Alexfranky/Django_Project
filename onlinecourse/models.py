@@ -104,16 +104,14 @@ class Question(models.Model):
     question = models.CharField(null=False, max_length=300)
     grade=models.IntegerField()
 
-
-
     # <HINT> A sample model method to calculate if learner get the score of the question
-    #def is_get_score(self, selected_ids):
-    #    all_answers = self.choice_set.filter(is_correct=True).count()
-    #    selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
-    #    if all_answers == selected_correct:
-    #        return True
-    #    else:
-    #        return False
+    def is_get_score(self, selected_ids):
+        all_answers = self.choice.filter(is_correct=True).count()
+        selected_correct = self.choice_set.filter(is_correct=True, id=selected_ids).count()
+        if all_answers == selected_correct:
+            return True
+        else:
+            return False
 
 #Answer choices model
 class Choice(models.Model):
