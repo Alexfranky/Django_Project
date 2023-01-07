@@ -35,7 +35,7 @@ def registration_request(request):
             login(request, user)
             return redirect("onlinecourse:index")
         else:
-            context['message'] = "User already exists."
+            context['message'] = "User already exists. Please login instead."
             return render(request, 'onlinecourse/user_registration_bootstrap.html', context)
 
 
@@ -143,29 +143,8 @@ def submit(request,course_id):
                         'grade':score/total,
                         'total':total,}
     return render(request, 'onlinecourse/exam_result_bootstrap.html',context)
-    
-    
-# you may implement it based on following logic:
-         # Get user and course object, then get the associated enrollment object created when the user enrolled the course
-         # Create a submission object referring to the enrollment
-         # Collect the selected choices from exam form
-         # Add each selected choice object to the submission object
-         # Redirect to show_exam_result with the submission id
-
 def show_exam_result(request):
     pass
     
-
-
-# <HINT> Create an exam result view to check if learner passed exam and show their question results and result for each question,
-
-
-# you may implement it based on the following logic:
-        # Get course and submission based on their ids
-        # Get the selected choice ids from the submission record
-        # For each selected choice, check if it is a correct answer or not
-        # Calculate the total score
-#def show_exam_result(request, course_id, submission_id):
-
 
 
